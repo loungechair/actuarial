@@ -31,6 +31,7 @@ dependencyManagement {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile 'com.amazonaws:aws-java-sdk'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
 }
 
 lombok {
