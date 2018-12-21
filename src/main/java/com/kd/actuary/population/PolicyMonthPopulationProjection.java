@@ -10,23 +10,29 @@ public class PolicyMonthPopulationProjection {
         this.populationData = populationData;
     }
 
-    PopulationData getPopulationAtPolicyMonthStart(int policyMonth)
+    public int getMaximumPolicyMonth()
+    {
+        return populationData.length();
+    }
+
+    public PopulationData getPopulationAtPolicyMonthStart(int policyMonth)
     {
         Validate.inclusiveBetween(policyMonth,1, populationData.length + 1);
         return populationData[policyMonth - 1];
     }
 
-    PopulationData getPopulationAtPolicyMonthEnd(int policyMonth)
+    public PopulationData getPopulationAtPolicyMonthEnd(int policyMonth)
+    {
+        Validate.inclusiveBetween(policyMonth, 0, populationData.length);
+        return populationData[policyMonth];
+    }
+
+    public PopulationData getPopulationAtPolicyYearStart(int policyYear)
     {
         return null;
     }
 
-    PopulationData getPopulationAtPolicyYearStart(int policyYear)
-    {
-        return null;
-    }
-
-    PopulationData getPopulationAtPolicyYearEnd(int policyYear)
+    public PopulationData getPopulationAtPolicyYearEnd(int policyYear)
     {
         return null;
     }

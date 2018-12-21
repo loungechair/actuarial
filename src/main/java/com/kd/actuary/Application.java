@@ -8,6 +8,10 @@ import com.kd.actuary.population.PolicyMonthProjectionEngine;
 public class Application {
     public static void main(String[] args) {
         MortalityAssumption flatMortalityRate = new FlatMonthlyMortalityRate(0.01);
-        PolicyMonthPopulationProjection x = PolicyMonthProjectionEngine.doProjection(12, flatMortalityRate);
+        PolicyMonthPopulationProjection x = PolicyMonthProjectionEngine.doSingleLifeProjection(
+                12,
+                flatMortalityRate);
+
+
     }
 }

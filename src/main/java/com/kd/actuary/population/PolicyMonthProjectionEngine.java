@@ -2,11 +2,10 @@ package com.kd.actuary.population;
 
 import com.kd.actuary.assumptions.mortality.MortalityAssumption;
 
-import java.util.Arrays;
-
-public class PolicyMonthProjectionEngine {
-    public static PolicyMonthPopulationProjection doProjection(int projectionMonths,
-                                                               MortalityAssumption mortalityAssumption)
+public class PolicyMonthProjectionEngine
+{
+    public static PolicyMonthPopulationProjection doSingleLifeProjection(int projectionMonths,
+                                                                         MortalityAssumption mortalityAssumption)
     {
         PopulationData[] populationData = new PopulationData[projectionMonths + 1];
         populationData[0] = new PopulationData(1.0, 0.0);
@@ -18,9 +17,6 @@ public class PolicyMonthProjectionEngine {
 
             populationData[i] = new PopulationData(alive, dead);
         }
-
-        Arrays.stream(populationData).forEach(System.out::println);
-
         return new PolicyMonthPopulationProjection(populationData);
     }
 }

@@ -1,0 +1,23 @@
+== TODO ==
+* Dynamic Population Projection
+  * Add issue date to projection engine
+  * Convert projection to half months
+  * How to specify the projection length?
+  * Switch assumptions at each pivot
+    * Requires option for which assumption to use at each pivot
+    * Could use one pricing and one valuation assumption
+    * Could use on pricing and different valuation at each pivot
+* UI
+* Assumptions
+  * Mortality
+    * Have difference classes that can convert assumptions in different ways
+      * Eg, constant force, UDD, etc.
+  * Lapse
+  * Morbidity
+* Persistence
+* Calculate a reserve for an annuity
+* Create a Date class
+* Create a projection timing class
+* Add unit tests
+
+== COMPLETED ==
