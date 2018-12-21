@@ -12,7 +12,7 @@ public class PolicyMonthPopulationProjection {
 
     public int getMaximumPolicyMonth()
     {
-        return populationData.length();
+        return populationData.length;
     }
 
     public PopulationData getPopulationAtPolicyMonthStart(int policyMonth)
