@@ -12,7 +12,7 @@ public class ProjectionTiming
     @Getter
     private int projectionMonths;
 
-    Vector<Date360> halfMonthEnds;
+    Vector<ProjectionTimePoint> halfMonthEnds;
 
     public ProjectionTiming(Date360 issueDate, TimePeriod projectionLength)
     {
@@ -23,21 +23,19 @@ public class ProjectionTiming
     }
 
     private void initializeHalfMonthEnds() {
-        System.out.println(this.projectionMonths);
         halfMonthEnds = new Vector<>(2 * this.projectionMonths + 1);
 
-        halfMonthEnds.add(0, issueDate);
+        halfMonthEnds.add(0, new ProjectionTimePoint(issueDate, 0));
 
         Date360 currentDate = issueDate;
 
         for (int i = 0; i < projectionMonths; ++i) {
-            halfMonthEnds.add(2 * i + 1, currentDate.atMonthEnd());
+            halfMonthEnds.add(2 * i + 1,
+                              new ProjectionTimePoint(currentDate.atMonthEnd(), 2 * i + 1));
             currentDate = currentDate.addMonths(1);
-            halfMonthEnds.add(2 * i + 2, currentDate);
+            halfMonthEnds.add(2 * i + 2,
+                              new ProjectionTimePoint(currentDate, 2 * i + 2));
         }
-
-        System.out.println(halfMonthEnds.size());
-        halfMonthEnds.forEach(System.out::println);
     }
 
     public double getCm1() {

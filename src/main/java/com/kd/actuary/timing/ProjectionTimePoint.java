@@ -20,7 +20,7 @@ public class ProjectionTimePoint
     private final int policyYear;
 
     @Builder
-    private ProjectionTimePoint(Date360 periodEnd, int halfMonth)
+    public ProjectionTimePoint(Date360 periodEnd, int halfMonth)
     {
         this.periodEnd = periodEnd;
         this.halfMonth = halfMonth;

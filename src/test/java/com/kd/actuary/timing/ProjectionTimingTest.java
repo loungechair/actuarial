@@ -9,7 +9,7 @@ public class ProjectionTimingTest
     @Test
     public void test()
     {
-        Date360 issueDate = Date360.of(2018, 1, 10);
+        Date360 issueDate = Date360.of(2018, 6, 10);
         TimePeriod timePeriod = TimePeriod.of(1, 0);
         ProjectionTiming pt = new ProjectionTiming(issueDate, timePeriod);
     }
