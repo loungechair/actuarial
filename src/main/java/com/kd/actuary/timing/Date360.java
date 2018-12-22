@@ -57,6 +57,10 @@ public class Date360
         return String.format("%4d-%02d-%02d", year, month, day);
     }
 
+    public Date360 atMonthEnd() {
+        return Date360.of(year, month, 30);
+    }
+
     int dayRef()
     {
         return (year - BASE_YEAR) * 360

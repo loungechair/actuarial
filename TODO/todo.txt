@@ -15,9 +15,11 @@
   * Lapse
   * Morbidity
 * Persistence
+  * Model
+  * Results
 * Calculate a reserve for an annuity
-* Create a Date class
 * Create a projection timing class
 * Add unit tests
 
 == COMPLETED ==
+2018/12/21 Create a Date class
