@@ -1,6 +1,6 @@
 package com.kd.actuary.population;
 
-import com.kd.actuary.timing.Date360;
+import com.kd.actuary.timing.CalendarDate;
 import com.kd.actuary.timing.ProjectionTiming;
 
 import java.util.Vector;
@@ -17,7 +17,7 @@ public class HalfMonthPopulationProjection
         this.projectionTiming = projectionTiming;
     }
 
-    Date360 getIssueDate()
+    CalendarDate getIssueDate()
     {
         return projectionTiming.getIssueDate();
     }

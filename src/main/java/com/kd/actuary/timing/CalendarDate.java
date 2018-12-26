@@ -1,6 +1,5 @@
 package com.kd.actuary.timing;
 
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.Validate;
@@ -9,7 +8,7 @@ import org.apache.commons.lang3.Validate;
  * 30/360 date format.
  */
 @EqualsAndHashCode
-public class Date360
+public class CalendarDate
 {
     private static final int BASE_YEAR = 1900;
 
@@ -20,7 +19,7 @@ public class Date360
     @Getter
     private final int day;
 
-    public Date360(int year, int month, int day)
+    public CalendarDate(int year, int month, int day)
     {
         Validate.isTrue(year >= BASE_YEAR,
                         String.format("year must be greater than %d, value is %d",
@@ -38,11 +37,11 @@ public class Date360
         this.day = day;
     }
 
-    static public Date360 of(int year, int month, int day) {
-        return new Date360(year, month, day);
+    static public CalendarDate of(int year, int month, int day) {
+        return new CalendarDate(year, month, day);
     }
 
-    static Date360 fromDayRef(int dayRef)
+    static CalendarDate fromDayRef(int dayRef)
     {
         int adjustedDayRef = dayRef - 1;
 
@@ -50,15 +49,15 @@ public class Date360
         int month = adjustedDayRef/30 % 12 + 1;
         int year = adjustedDayRef/360 + BASE_YEAR;
 
-        return Date360.of(year, month, day);
+        return CalendarDate.of(year, month, day);
     }
 
     public String toString() {
         return String.format("%4d-%02d-%02d", year, month, day);
     }
 
-    public Date360 atMonthEnd() {
-        return Date360.of(year, month, 30);
+    public CalendarDate atMonthEnd() {
+        return CalendarDate.of(year, month, 30);
     }
 
     int dayRef()
@@ -74,36 +73,36 @@ public class Date360
                 + month;
     }
 
-    public int daysBetween(Date360 d)
+    public int daysBetween(CalendarDate d)
     {
         return d.dayRef() - dayRef();
     }
 
-    public double monthsBetween(Date360 d)
+    public double monthsBetween(CalendarDate d)
     {
         return daysBetween(d) / 30.0;
     }
 
-    public double yearsBetween(Date360 d)
+    public double yearsBetween(CalendarDate d)
     {
         return daysBetween(d) / 360.0;
     }
 
-    public Date360 addDays(int days)
+    public CalendarDate addDays(int days)
     {
         Validate.isTrue(days > 0, "years must be greater than 0: %s", days);
-        return Date360.fromDayRef(dayRef() + days);
+        return CalendarDate.fromDayRef(dayRef() + days);
     }
 
-    public Date360 addMonths(int months)
+    public CalendarDate addMonths(int months)
     {
         Validate.isTrue(months > 0, "years must be greater than 0: %s", months);
-        return Date360.fromDayRef(dayRef() + 30 * months);
+        return CalendarDate.fromDayRef(dayRef() + 30 * months);
     }
 
-    public Date360 addYears(int years)
+    public CalendarDate addYears(int years)
     {
         Validate.isTrue(years > 0, "years must be greater than 0: %s", years);
-        return Date360.of(year + years, month, day);
+        return CalendarDate.of(year + years, month, day);
     }
 }

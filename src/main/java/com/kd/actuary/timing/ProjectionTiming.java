@@ -8,7 +8,7 @@ import java.util.Vector;
 public class ProjectionTiming
 {
     @Getter
-    private Date360 issueDate;
+    private CalendarDate issueDate;
 
     @Getter
     private int projectionMonths;
@@ -19,7 +19,7 @@ public class ProjectionTiming
     Vector<ProjectionTimePoint> halfMonthEnds;
 
     @Builder
-    public ProjectionTiming(Date360 issueDate, TimePeriod projectionLength)
+    public ProjectionTiming(CalendarDate issueDate, TimePeriod projectionLength)
     {
         this.issueDate = issueDate;
         this.projectionMonths = projectionLength.getPeriodLengthInMonths();
@@ -31,7 +31,7 @@ public class ProjectionTiming
     private void initializeHalfMonthEnds() {
         halfMonthEnds = new Vector<>(projectionHalfMonths);
 
-        Date360 currentDate = issueDate;
+        CalendarDate currentDate = issueDate;
 
         halfMonthEnds.add(0, new ProjectionTimePoint(currentDate, 0));
 

@@ -1,14 +1,13 @@
 package com.kd.actuary.timing;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 
 public class ProjectionTimePoint
 {
     @Getter
-    private final Date360 periodEnd;
+    private final CalendarDate periodEnd;
 
     @Getter
     private final int halfMonth;
@@ -20,7 +19,7 @@ public class ProjectionTimePoint
     private final int policyYear;
 
     @Builder
-    public ProjectionTimePoint(Date360 periodEnd, int halfMonth)
+    public ProjectionTimePoint(CalendarDate periodEnd, int halfMonth)
     {
         this.periodEnd = periodEnd;
         this.halfMonth = halfMonth;
@@ -31,7 +30,7 @@ public class ProjectionTimePoint
 
     public static ProjectionTimePoint of(int year, int month, int day, int halfMonth)
     {
-        return new ProjectionTimePoint(Date360.of(year, month, day), halfMonth);
+        return new ProjectionTimePoint(CalendarDate.of(year, month, day), halfMonth);
     }
 
     public boolean isPolicyYearEnd()
