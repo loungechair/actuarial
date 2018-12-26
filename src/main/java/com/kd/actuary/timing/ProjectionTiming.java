@@ -1,5 +1,6 @@
 package com.kd.actuary.timing;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Vector;
@@ -12,22 +13,27 @@ public class ProjectionTiming
     @Getter
     private int projectionMonths;
 
+    @Getter
+    private int projectionHalfMonths;
+
     Vector<ProjectionTimePoint> halfMonthEnds;
 
+    @Builder
     public ProjectionTiming(Date360 issueDate, TimePeriod projectionLength)
     {
         this.issueDate = issueDate;
         this.projectionMonths = projectionLength.getPeriodLengthInMonths();
+        this.projectionHalfMonths = projectionMonths * 2 + 1;
 
         initializeHalfMonthEnds();
     }
 
     private void initializeHalfMonthEnds() {
-        halfMonthEnds = new Vector<>(2 * this.projectionMonths + 1);
-
-        halfMonthEnds.add(0, new ProjectionTimePoint(issueDate, 0));
+        halfMonthEnds = new Vector<>(projectionHalfMonths);
 
         Date360 currentDate = issueDate;
+
+        halfMonthEnds.add(0, new ProjectionTimePoint(currentDate, 0));
 
         for (int i = 0; i < projectionMonths; ++i) {
             halfMonthEnds.add(2 * i + 1,

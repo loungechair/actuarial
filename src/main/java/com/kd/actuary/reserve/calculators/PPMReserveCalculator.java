@@ -1,16 +1,24 @@
 package com.kd.actuary.reserve.calculators;
 
+import com.kd.actuary.timing.ProjectionTiming;
+
 import java.util.Vector;
 
 public class PPMReserveCalculator
 {
 
     private Vector<Double> reserves;
+    private ProjectionTiming projectionTiming;
 
-    public PPMReserveCalculator()
+    private int projectionMonths;
+
+    public PPMReserveCalculator(ProjectionTiming projectionTiming)
     {
-        reserves = new Vector<Double>(10);
-        for (int i = 0; i < 10; ++i) {
+        this.projectionTiming = projectionTiming;
+        this.projectionMonths = projectionTiming.getProjectionMonths();
+
+        reserves = new Vector<Double>(projectionMonths);
+        for (int i = 0; i < projectionMonths; ++i) {
             reserves.add(i, 0.0);
         }
     }
@@ -21,7 +29,7 @@ public class PPMReserveCalculator
         double periodEndPayment = 100;
         double periodStartPayment = 0;
 
-        int endTime = reserves.capacity() - 1;
+        int endTime = projectionMonths - 1;
 
         reserves.set(endTime, 0.0);
 
