@@ -28,6 +28,11 @@ public class ProjectionTiming
         initializeHalfMonthEnds();
     }
 
+    public int getProjectionLength()
+    {
+        return projectionMonths + 1;
+    }
+
     private void initializeHalfMonthEnds() {
         halfMonthEnds = new Vector<>(projectionHalfMonths);
 

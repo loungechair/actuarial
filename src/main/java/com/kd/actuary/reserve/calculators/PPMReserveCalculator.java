@@ -7,48 +7,48 @@ import java.util.Vector;
 public class PPMReserveCalculator
 {
 
-    private Vector<Double> reserves;
+    private Vector<Double> reserveFactors;
     private ProjectionTiming projectionTiming;
 
-    private int projectionMonths;
+    private int projectionLength;
 
     public PPMReserveCalculator(ProjectionTiming projectionTiming)
     {
         this.projectionTiming = projectionTiming;
-        this.projectionMonths = projectionTiming.getProjectionMonths();
+        this.projectionLength = projectionTiming.getProjectionLength();
 
-        reserves = new Vector<Double>(projectionMonths);
-        for (int i = 0; i < projectionMonths; ++i) {
-            reserves.add(i, 0.0);
+        reserveFactors = new Vector<>(projectionLength);
+        for (int i = 0; i < projectionLength; ++i) {
+            reserveFactors.add(i, 0.0);
         }
     }
 
-    public void calculateReserves()
+    public void calculateReserveFactors()
     {
-        double discountFactor = 0.95;
-        double periodEndPayment = 100;
-        double periodStartPayment = 0;
+        double discountFactor = 1.00;
 
-        int endTime = projectionMonths - 1;
+        int endTime = projectionLength - 1;
 
-        reserves.set(endTime, 0.0);
+        System.out.println("endTime = " + endTime);
+
+        reserveFactors.set(endTime, 0.0);
 
         --endTime;
 
         for (int timePeriod = endTime; timePeriod >= 0; --timePeriod) {
-            double reserve = (reserves.get(timePeriod + 1) + getMonthMortalityRate(timePeriod) * getMonthEndPayment(timePeriod))
-                    * discountFactor
-                    + getMonthStartPayment(timePeriod);
-            reserves.set(timePeriod, reserve);
+            double expectedMonthEndPayment = getMonthMortalityRate(timePeriod) * getMonthEndPayment(timePeriod);
+            double monthStartPayment = getMonthStartPayment(timePeriod);
+            double reserve = (reserveFactors.get(timePeriod + 1) + expectedMonthEndPayment) * discountFactor
+                    + monthStartPayment;
+            reserveFactors.set(timePeriod, reserve);
+
+            System.out.println(String.format("%d: %.2f", timePeriod, reserve));
         }
-
-        reserves.forEach(System.out::println);
-
     }
 
     private double getMonthStartPayment(int month)
     {
-        return 50;
+        return 0;
     }
 
     private double getMonthEndPayment(int month)
@@ -58,6 +58,6 @@ public class PPMReserveCalculator
 
     private double getMonthMortalityRate(int month)
     {
-        return 0.99;
+        return 1.00;
     }
 }

@@ -11,10 +11,10 @@ public class PPMReserveCalculatorTest
     public void test_calculateReserves()
     {
         ProjectionTiming timing = ProjectionTiming.builder()
-                .issueDate(CalendarDate.of(2018, 1, 1))
+                .issueDate(CalendarDate.of(2018, 1, 15))
                 .projectionLength(TimePeriod.of(1, 6))
                 .build();
         PPMReserveCalculator res = new PPMReserveCalculator(timing);
-        res.calculateReserves();
+        res.calculateReserveFactors();
     }
 }
