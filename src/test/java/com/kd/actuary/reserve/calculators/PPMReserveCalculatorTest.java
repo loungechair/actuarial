@@ -1,5 +1,9 @@
 package com.kd.actuary.reserve.calculators;
 
+import com.kd.actuary.assumptions.interest.ConstantInterestRate;
+import com.kd.actuary.assumptions.interest.InterestAssumption;
+import com.kd.actuary.assumptions.mortality.FlatMonthlyMortalityRate;
+import com.kd.actuary.assumptions.mortality.MortalityAssumption;
 import com.kd.actuary.timing.CalendarDate;
 import com.kd.actuary.timing.ProjectionTiming;
 import com.kd.actuary.timing.TimePeriod;
@@ -14,7 +18,10 @@ public class PPMReserveCalculatorTest
                 .issueDate(CalendarDate.of(2018, 1, 15))
                 .projectionLength(TimePeriod.of(1, 6))
                 .build();
-        PPMReserveCalculator res = new PPMReserveCalculator(timing);
+        InterestAssumption interestRate = ConstantInterestRate.fromMonthlyRate(0.01);
+        MortalityAssumption mortalityRate = new FlatMonthlyMortalityRate(0.02);
+
+        PPMReserveCalculator res = new PPMReserveCalculator(timing, interestRate, mortalityRate);
         res.calculateReserveFactors();
     }
 }
