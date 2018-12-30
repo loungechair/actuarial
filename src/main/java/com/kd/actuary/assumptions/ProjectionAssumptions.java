@@ -1,12 +1,15 @@
 package com.kd.actuary.assumptions;
 
+import com.kd.actuary.assumptions.interest.InterestAssumption;
 import com.kd.actuary.assumptions.mortality.MortalityAssumption;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
-@Builder
-public class ProjectionAssumptions
+public interface ProjectionAssumptions
 {
-    private MortalityAssumption mortalityAssumption;
+    // Interest related
+    double getMonthlyDiscountFactor(int policyMonth);
+
+    // Mortality related
+    double getMonthlySurvivalFactor(int policyMonth);
 }

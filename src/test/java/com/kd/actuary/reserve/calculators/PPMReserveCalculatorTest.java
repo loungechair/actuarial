@@ -1,5 +1,7 @@
 package com.kd.actuary.reserve.calculators;
 
+import com.kd.actuary.assumptions.ProjectionAssumptions;
+import com.kd.actuary.assumptions.StaticProjectionAssumptions;
 import com.kd.actuary.assumptions.interest.ConstantInterestRate;
 import com.kd.actuary.assumptions.interest.InterestAssumption;
 import com.kd.actuary.assumptions.mortality.FlatMonthlyMortalityRate;
@@ -21,7 +23,12 @@ public class PPMReserveCalculatorTest
         InterestAssumption interestRate = ConstantInterestRate.fromMonthlyRate(0.01);
         MortalityAssumption mortalityRate = new FlatMonthlyMortalityRate(0.02);
 
-        PPMReserveCalculator res = new PPMReserveCalculator(timing, interestRate, mortalityRate);
+        ProjectionAssumptions projectionAssumptions = StaticProjectionAssumptions.builder()
+                .interestAssumption(interestRate)
+                .mortalityAssumption(mortalityRate)
+                .build();
+
+        PPMReserveCalculator res = new PPMReserveCalculator(timing, projectionAssumptions);
         res.calculateReserveFactors();
     }
 }

@@ -1,5 +1,7 @@
 package com.kd.actuary.reserve.calculators;
 
+import com.kd.actuary.assumptions.ProjectionAssumptions;
+import com.kd.actuary.assumptions.StaticProjectionAssumptions;
 import com.kd.actuary.assumptions.interest.InterestAssumption;
 import com.kd.actuary.assumptions.mortality.MortalityAssumption;
 import com.kd.actuary.timing.ProjectionTiming;
@@ -11,28 +13,40 @@ public class PPMReserveCalculator
 
     private Vector<Double> reserveFactors;
     private ProjectionTiming projectionTiming;
-    private InterestAssumption interestAssumption;
-    private MortalityAssumption mortalityAssumption;
+    private ProjectionAssumptions projectionAssumptions;
 
     private int projectionLength;
 
+    public PPMReserveCalculator(ProjectionTiming projectionTiming,
+                                ProjectionAssumptions projectionAssumptions)
+    {
+        this.projectionTiming = projectionTiming;
+        this.projectionLength = projectionTiming.getProjectionLength();
+
+        this.projectionAssumptions = projectionAssumptions;
+    }
+
+    @Deprecated
     public PPMReserveCalculator(ProjectionTiming projectionTiming,
                                 InterestAssumption interestAssumption,
                                 MortalityAssumption mortalityAssumption)
     {
         this.projectionTiming = projectionTiming;
         this.projectionLength = projectionTiming.getProjectionLength();
-        this.interestAssumption = interestAssumption;
-        this.mortalityAssumption = mortalityAssumption;
 
-        reserveFactors = new Vector<>(projectionLength);
-        for (int i = 0; i < projectionLength; ++i) {
-            reserveFactors.add(i, 0.0);
-        }
+        this.projectionAssumptions = StaticProjectionAssumptions.builder()
+                .interestAssumption(interestAssumption)
+                .mortalityAssumption(mortalityAssumption)
+                .build();
     }
 
     public void calculateReserveFactors()
     {
+        reserveFactors = new Vector<>(projectionLength);
+        for (int i = 0; i < projectionLength; ++i) {
+            reserveFactors.add(i, 0.0);
+        }
+
         int endTime = projectionLength - 1;
         reserveFactors.set(endTime, 0.0);
 
@@ -50,7 +64,7 @@ public class PPMReserveCalculator
 
     private double getMonthDiscountFactor(int policyMonth)
     {
-        return interestAssumption.getMonthlyDiscountFactor(policyMonth);
+        return projectionAssumptions.getMonthlyDiscountFactor(policyMonth);
     }
 
     private double getMonthStartPayment(int policyMonth)
@@ -65,6 +79,6 @@ public class PPMReserveCalculator
 
     private double getMonthlySurvivalRate(int policyMonth)
     {
-        return 1.0 - mortalityAssumption.getPolicyMonthMortalityRate(policyMonth);
+        return projectionAssumptions.getMonthlySurvivalFactor(policyMonth);
     }
 }
