@@ -1,7 +1,7 @@
 package com.kd.actuary.reserve.calculators;
 
 import com.kd.actuary.assumptions.ProjectionAssumptions;
-import com.kd.actuary.benefits.PaymentSchedule;
+import com.kd.actuary.benefits.LevelMonthlyPayments;
 import com.kd.actuary.timing.ProjectionTiming;
 import lombok.Getter;
 
@@ -12,14 +12,14 @@ public class PPMReserveCalculator implements ReserveCalculator
 
     private Vector<Double> reserveFactors;
     private final ProjectionTiming projectionTiming;
-    private final PaymentSchedule paymentSchedule;
+    private final LevelMonthlyPayments paymentSchedule;
     private final ProjectionAssumptions projectionAssumptions;
 
     @Getter
     private int projectionLength;
 
     public PPMReserveCalculator(ProjectionTiming projectionTiming,
-                                PaymentSchedule paymentSchedule,
+                                LevelMonthlyPayments paymentSchedule,
                                 ProjectionAssumptions projectionAssumptions)
     {
         this.projectionTiming = projectionTiming;
@@ -42,11 +42,11 @@ public class PPMReserveCalculator implements ReserveCalculator
             double discountFactor = getMonthDiscountFactor(timePeriod);
             double expectedMonthEndPayment = getMonthlySurvivalRate(timePeriod) * getMonthEndPayment(timePeriod);
             double monthStartPayment = getMonthStartPayment(timePeriod);
-            double reserve = (reserveFactors.get(timePeriod + 1) + expectedMonthEndPayment) * discountFactor
+            double reserveFactor = (reserveFactors.get(timePeriod + 1) + expectedMonthEndPayment) * discountFactor
                     + monthStartPayment;
-            reserveFactors.set(timePeriod, reserve);
+            reserveFactors.set(timePeriod, reserveFactor);
 
-            System.out.println(String.format("%d: %.4f", timePeriod, reserve));
+            System.out.println(String.format("%d: %.4f", timePeriod, reserveFactor));
         }
     }
 

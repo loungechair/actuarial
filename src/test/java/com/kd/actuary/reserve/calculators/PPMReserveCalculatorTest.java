@@ -6,7 +6,7 @@ import com.kd.actuary.assumptions.interest.ConstantInterestRate;
 import com.kd.actuary.assumptions.interest.InterestAssumption;
 import com.kd.actuary.assumptions.mortality.FlatMonthlyMortalityRate;
 import com.kd.actuary.assumptions.mortality.MortalityAssumption;
-import com.kd.actuary.benefits.PaymentSchedule;
+import com.kd.actuary.benefits.LevelMonthlyPayments;
 import com.kd.actuary.timing.CalendarDate;
 import com.kd.actuary.timing.ProjectionTiming;
 import com.kd.actuary.timing.TimePeriod;
@@ -32,7 +32,9 @@ public class PPMReserveCalculatorTest
                 .mortalityAssumption(mortalityRate)
                 .build();
 
-        PaymentSchedule paymentSchedule = new PaymentSchedule();
+        LevelMonthlyPayments paymentSchedule = LevelMonthlyPayments.builder()
+                .monthEndPayment(100.0)
+                .build();
 
         PPMReserveCalculator res = new PPMReserveCalculator(timing, paymentSchedule, projectionAssumptions);
         res.calculateReserveFactors();
