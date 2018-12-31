@@ -1,43 +1,31 @@
 package com.kd.actuary.reserve.calculators;
 
 import com.kd.actuary.assumptions.ProjectionAssumptions;
-import com.kd.actuary.assumptions.StaticProjectionAssumptions;
-import com.kd.actuary.assumptions.interest.InterestAssumption;
-import com.kd.actuary.assumptions.mortality.MortalityAssumption;
+import com.kd.actuary.benefits.PaymentSchedule;
 import com.kd.actuary.timing.ProjectionTiming;
+import lombok.Getter;
 
 import java.util.Vector;
 
-public class PPMReserveCalculator
+public class PPMReserveCalculator implements ReserveCalculator
 {
 
     private Vector<Double> reserveFactors;
-    private ProjectionTiming projectionTiming;
-    private ProjectionAssumptions projectionAssumptions;
+    private final ProjectionTiming projectionTiming;
+    private final PaymentSchedule paymentSchedule;
+    private final ProjectionAssumptions projectionAssumptions;
 
+    @Getter
     private int projectionLength;
 
     public PPMReserveCalculator(ProjectionTiming projectionTiming,
+                                PaymentSchedule paymentSchedule,
                                 ProjectionAssumptions projectionAssumptions)
     {
         this.projectionTiming = projectionTiming;
         this.projectionLength = projectionTiming.getProjectionLength();
-
+        this.paymentSchedule = paymentSchedule;
         this.projectionAssumptions = projectionAssumptions;
-    }
-
-    @Deprecated
-    public PPMReserveCalculator(ProjectionTiming projectionTiming,
-                                InterestAssumption interestAssumption,
-                                MortalityAssumption mortalityAssumption)
-    {
-        this.projectionTiming = projectionTiming;
-        this.projectionLength = projectionTiming.getProjectionLength();
-
-        this.projectionAssumptions = StaticProjectionAssumptions.builder()
-                .interestAssumption(interestAssumption)
-                .mortalityAssumption(mortalityAssumption)
-                .build();
     }
 
     public void calculateReserveFactors()
@@ -58,8 +46,13 @@ public class PPMReserveCalculator
                     + monthStartPayment;
             reserveFactors.set(timePeriod, reserve);
 
-            System.out.println(String.format("%d: %.2f", timePeriod, reserve));
+            System.out.println(String.format("%d: %.4f", timePeriod, reserve));
         }
+    }
+
+    public double getPolicyMonthEndFactor(int policyMonth)
+    {
+        return reserveFactors.get(policyMonth);
     }
 
     private double getMonthDiscountFactor(int policyMonth)
@@ -69,12 +62,12 @@ public class PPMReserveCalculator
 
     private double getMonthStartPayment(int policyMonth)
     {
-        return 0;
+        return paymentSchedule.getMonthStartPayment(policyMonth);
     }
 
     private double getMonthEndPayment(int policyMonth)
     {
-        return 100;
+        return paymentSchedule.getMonthEndPayment(policyMonth);
     }
 
     private double getMonthlySurvivalRate(int policyMonth)
