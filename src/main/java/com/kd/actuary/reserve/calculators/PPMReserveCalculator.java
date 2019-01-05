@@ -2,6 +2,7 @@ package com.kd.actuary.reserve.calculators;
 
 import com.kd.actuary.assumptions.ProjectionAssumptions;
 import com.kd.actuary.benefits.LevelMonthlyPayments;
+import com.kd.actuary.benefits.PaymentSchedule;
 import com.kd.actuary.timing.ProjectionTiming;
 import lombok.Getter;
 
@@ -12,14 +13,14 @@ public class PPMReserveCalculator implements ReserveCalculator
 
     private Vector<Double> reserveFactors;
     private final ProjectionTiming projectionTiming;
-    private final LevelMonthlyPayments paymentSchedule;
+    private final PaymentSchedule paymentSchedule;
     private final ProjectionAssumptions projectionAssumptions;
 
     @Getter
     private int projectionLength;
 
     public PPMReserveCalculator(ProjectionTiming projectionTiming,
-                                LevelMonthlyPayments paymentSchedule,
+                                PaymentSchedule paymentSchedule,
                                 ProjectionAssumptions projectionAssumptions)
     {
         this.projectionTiming = projectionTiming;
